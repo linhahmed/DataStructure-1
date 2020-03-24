@@ -1,0 +1,145 @@
+package eg.edu.alexu.csd.datastructure.linkedList.app;
+
+public class Single implements ILinkedList {
+	Node head;
+
+	public class Node {
+		public Object value = null;
+		public Node next = null;
+	}
+
+	public void add(int index, Object element) {
+		Node current = head;
+		Node store;
+		Node n = new Node();
+		n.value = element;
+		if (head == null) {
+			head = n;
+		} else if (index == 0) {
+			store = head;
+			head = n;
+			n.next = store;
+		} else if (index > size() || index < 0) {
+			throw new IndexOutOfBoundsException();
+		} else {
+			for (int i = 0; i < index - 1; i++) {
+				current = current.next;
+			}
+			store = current.next;
+			current.next = n;
+			n.next = store;
+		}
+	}
+
+	public void add(Object value) {
+		Node node = new Node();
+		node.value = value;
+		node.next = null;
+		if (head == null)
+			head = node;
+		else {
+			Node n = head;
+			while (n.next != null)
+				n = n.next;
+			n.next = node;
+		}
+	}
+
+	public Object get(int index) {
+		int i = 0;
+		Node Current = head;
+		if (index >= size() || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		while (i < index) {
+			Current = Current.next;
+			i++;
+		}
+		return Current.value;
+	}
+
+	public void set(int index, Object element) {
+		int i = 0;
+		Node Current = head;
+		while (i < index) {
+			Current = Current.next;
+			i++;
+		}
+		Current.value = element;
+	}
+
+	public void clear() {
+		head = null;
+	}
+
+	public boolean isEmpty() {
+		if (head == null)
+			return true;
+		return false;
+	}
+
+	public void remove(int index) {
+		int i = 0;
+		Node Current = head;
+		if (head == null || index < 0 || index >= size()) {
+			throw new IndexOutOfBoundsException();
+		} else if (index == 0) {
+			head = Current.next;
+		} else {
+			while (i < index - 1) {
+				Current = Current.next;
+				i++;
+			}
+			Current.next = Current.next.next;
+		}
+	}
+
+	public int size() {
+		int Size = 0;
+		if (head == null)
+			return 0;
+		Node Current = head;
+		while (Current != null) {
+			Size++;
+			Current = Current.next;
+		}
+		return Size;
+	}
+
+	public ILinkedList sublist(int fromIndex, int toIndex) {
+		if (head == null || fromIndex < 0 || fromIndex >= size() || toIndex >= size() || toIndex < 0)
+			throw new IndexOutOfBoundsException();
+		Node assist = head;
+		int count = 0;
+		ILinkedList home = new Double();
+		while (assist != null) {
+			if (count >= fromIndex && count <= toIndex)
+				home.add(assist.value);
+			assist = assist.next;
+			count++;
+		}
+		return home;
+	}
+
+	public boolean contains(Object o) {
+		Node check = head;
+		while (check != null) {
+			if (check.value == o)
+				return true;
+			check = check.next;
+		}
+		return false;
+	}
+
+	public int IndexOf(Object o) {
+		if (head == null)
+			return -1;
+		int index = 0;
+		Node Current = head;
+		while (Current.next != null && Current.value != o) {
+			index++;
+			Current = Current.next;
+		}
+		return index;
+	}
+}
